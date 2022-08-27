@@ -29,6 +29,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = [config("IP_ADDR")]
 
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
+
+CORS_ALLOWED_ORIGINS = [
+	config("IP_ADDR"),
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
 
 # Application definition
 
@@ -40,12 +57,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap5'
+    'bootstrap5',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -120,9 +139,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/ic Featured Latest Popular Your Feed Under Judgment 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
+STATIC_ROOT = "home/pawel_jakimiuk00/wasilkow/static"
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    "home/pawel_jakimiuk00/wasilkow/static",
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
