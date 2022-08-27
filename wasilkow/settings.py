@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -116,11 +117,13 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
+# https://docs.djangoproject.com/en/4.1/howto/static-files/ic Featured Latest Popular Your Feed Under Judgment 
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), 'static')
-
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
