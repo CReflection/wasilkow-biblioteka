@@ -34,7 +34,7 @@
     <div class="container">
         <div class="border border-2 row question">
             <div class="col d-flex align-items-center">
-                <form action="{% url 'polls:vote' question.id %}" method="post">
+                <form method="POST">
                     {% csrf_token %}
                     <fieldset>
                         <div class="row">
