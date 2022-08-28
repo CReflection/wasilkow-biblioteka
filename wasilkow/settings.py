@@ -139,10 +139,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/ic Featured Latest Popular Your Feed Under Judgment 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = "home/pawel_jakimiuk00/wasilkow/static"
-STATICFILES_DIRS = [
-    "home/pawel_jakimiuk00/wasilkow/static",
-]
+STATIC_ROOT = "static/"
+#STATICFILES_DIRS = [
+ #   "home/pawel_jakimiuk00/wasilkow/static/collected",
+#]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
