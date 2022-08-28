@@ -51,7 +51,11 @@
             </div>
             <div class="col">
                 <div class="d-flex align-items-center justify-content-center">
+                    {% if question.image %}
+                    <img src="{{ question.image.url }}">
+                    {% else %}
                     <img src="{% static 'images/Adam.jpg' %}">
+                    {% endif %}
                 </div>
             </div>
         </div>
