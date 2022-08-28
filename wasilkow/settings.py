@@ -31,21 +31,7 @@ ALLOWED_HOSTS = [config("IP_ADDR")]
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
-CORS_ALLOWED_ORIGINS = [
-	config("IP_ADDR"),
-]
 
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-]
 
 # Application definition
 
@@ -139,10 +125,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/ic Featured Latest Popular Your Feed Under Judgment 
 
 STATIC_URL = 'static/'
-STATIC_ROOT = "static/"
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), "static")
 #STATICFILES_DIRS = [
- #   "home/pawel_jakimiuk00/wasilkow/static/collected",
+    #"home/pawel_jakimiuk00/wasilkow/static/collected",
 #]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
