@@ -18,6 +18,10 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 
+admin.site.site_header = "Mickiewicz Quiz Admin"
+admin.site.site_title = "Strona administracyjna Mickiewicz Quiz"
+admin.site.index_title = "Witamy na stronie administracyjnej Quizu o Mickiewiczu"
+
 urlpatterns = [
     path('', include('polls.urls')),
     path('admin/', admin.site.urls),    
