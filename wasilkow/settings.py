@@ -125,7 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/ic Featured Latest Popular Your Feed Under Judgment 
 
 STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
 STATIC_ROOT = os.path.join(os.path.dirname(__file__), "static")
+MEDIA_ROOT = os.path.join(os.path.dirname(__file__), "media")
+
+
+
 #STATICFILES_DIRS = [
     #"home/pawel_jakimiuk00/wasilkow/static/collected",
 #]
