@@ -20,17 +20,31 @@
             <img src="{% static 'images/temp_banner.jpg' %}" alt="baner brak">
         </div>
     </div>
-    <nav class="navbar navbar-expand-sm bg-light justify-content-around text-center">
-        <div class="col-sm-4 nav-item">
-            <a class="nav-link font-weight-bold" href="{% url 'polls:index' %}">Strona główna</a>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Quiz o Mickiewiczu</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'polls:index' %}">Strona główna</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Tabela Wyników</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Kontakt</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="col-sm-4 nav-item">
-            <a class="nav-link font-weight-bold" href="#">Tabela Wyników</a>
-        </div>
-        <div class="col-sm-4 nav-item ">
-            <a class="nav-link font-weight-bold" href="#">Kontakt</a>
-        </div>
-    </nav>
+      </nav>
+
+
+      
     <div class="container">
         <div class="border border-2 row question">
             <div class="col d-flex align-items-center">
@@ -49,17 +63,19 @@
                     <input type="submit" value="Vote" class="btn btn-success">
                 </form>
             </div>
-            <div class="col">
+            <div class="col-sm">
                 <div class="d-flex align-items-center justify-content-center">
                     {% if question.image %}
-                    <img src="{{ question.image.url }}">
+                    <img src="{{ question.image.url }}" class="img-thumbnail">
                     {% else %}
-                    <img src="{% static 'images/Adam.jpg' %}">
+                    <img src="{% static 'images/Adam.jpg' %}" class="img-thumbnail">
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
+
+
 </body>
 
 </html>
