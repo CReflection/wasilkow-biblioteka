@@ -15,9 +15,9 @@ def detail(request, question_id):
     if request.method == "POST":
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         if(answer.valid):
-            return HttpResponse("Jest to poprawna odpowiedź na pytanie '" +answer.answer_text + "'")
+            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
         else:
-            return HttpResponse("Nie jest to poprawna odpowiedź na pytanie '" +answer.answer_text + "'")
+            return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
 
     return render(request, 'polls/detail.html', {'question': question})
 
