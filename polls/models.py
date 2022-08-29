@@ -5,7 +5,6 @@ from django.utils import timezone
 
 class Question(models.Model):
     question_text = models.CharField('Pytanie', max_length=200)
-    pub_date = models.DateTimeField('Data')
     image = models.ImageField('Obrazek', null=True, blank=True, upload_to="images/")
     
 
