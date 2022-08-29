@@ -57,16 +57,18 @@
             <a class="nav-link font-weight-bold" href="#">Kontakt</a>
         </div>
     </nav>
+    {% if latest_question_list %}
+    <ul>
+        {% for question in latest_question_list %}
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No polls are available.</p>
+    {% endif %}
+    <div class="col-sm-3">
+        <h3>Liczba punktów: {{ points }}</h3>
+    </div>
 </body>
 
 </html>
-
-{% if latest_question_list %}
-<ul>
-    {% for question in latest_question_list %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No polls are available.</p>
-{% endif %}

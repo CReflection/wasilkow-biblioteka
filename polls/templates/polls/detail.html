@@ -52,15 +52,18 @@
                     {% csrf_token %}
                     <fieldset>
                         <div class="row">
-                            <h1>{{ question.question_text }}</h1>
+                            <h1>{{ question.question_text }}</h1><br>
+                            <h4>{{ question.quote }}</h4>
                         </div>
+                        <br>
                         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
                         {% for answer in question.answer_set.all %}
                         <input class="form-check-input" required type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
                         <label class="form-check-label" for="answer{{ forloop.counter }}">{{answer.answer_text}}</label><br>
                         {% endfor %}
                     </fieldset>
-                    <input type="submit" value="Vote" class="btn btn-success">
+                    <br>
+                    <input type="submit" value="Zatwierdź" class="btn btn-success">
                 </form>
             </div>
             <div class="col-sm">
