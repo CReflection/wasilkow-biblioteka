@@ -24,7 +24,7 @@ def index(request):
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
-    question = get_object_or_404(Question, pk=int(question_id))
+    question = get_object_or_404(Question, pk=question_id)
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
 
@@ -60,7 +60,7 @@ def getRandomQuestionId(request):
 
 def randomQuestion(request):
     if request.method == "POST":
-        question_id = int(request.session['picked_question_id'])
+        question_id = request.POST['question_id']
         print(question_id)
         print(request.session['answered_questions'])
         question = get_object_or_404(Question, pk=question_id)
