@@ -9,28 +9,32 @@ from .models import Question, Answer
 
 def index(request):
     latest_question_list = Question.objects.all()
-    context = {'latest_question_list': latest_question_list}
+    if not request.session.get('points', None):
+        request.session['points'] = 0
+    context = {
+        'latest_question_list': latest_question_list,
+        'points': request.session['points']
+    }
+    print(request.session['answered_questions'])
+    print(request.session['picked_question_id'])
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
+    question = get_object_or_404(Question, pk=int(question_id))
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
-    
-    print(request.session['answered_questions'])
+
     cookie_list = request.session['answered_questions'].split("'").pop()
-    print(cookie_list)
     if str(question_id) in cookie_list:
         return HttpResponse("Już odpowiedziałeś :]")
     if request.method == "POST":
         request.session['answered_questions'] += str(question_id) + "'"
-        print("grok", request.session.get('answered_questions',question_id))
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         if(answer.valid):
+            request.session['points'] += 1
             return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
         else:
             return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
-
     return render(request, 'polls/detail.html', {'question': question})
 
 def results(request, question_id):
@@ -52,7 +56,9 @@ def getRandomQuestionId(request):
 
 def randomQuestion(request):
     if request.method == "POST":
-        question_id = request.session['picked_question_id']
+        question_id = int(request.session['picked_question_id'])
+        print(question_id)
+        print(request.session['answered_questions'])
         question = get_object_or_404(Question, pk=question_id)
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         request.session['picked_question_id'] = None
@@ -63,6 +69,7 @@ def randomQuestion(request):
 
         request.session['answered_questions'] += str(question_id) + "'"
         if(answer.valid):
+            request.session['points'] += 1
             return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
         else:
             question = get_object_or_404(Question, pk=getRandomQuestionId(request))
@@ -77,9 +84,10 @@ def randomQuestion(request):
         question_id = getRandomQuestionId(request)
     else:
         #Jeżeli w trakcie odpowiadania na pytanie przydziel odpowiednie pytanie
-        question_id = request.session['picked_question_id']
-    request.session['picked_question_id'] = question_id
+        question_id = int(request.session['picked_question_id'])
+    request.session['picked_question_id'] = str(question_id)
     question = get_object_or_404(Question, pk=question_id)
+    print(request.session['picked_question_id'])
     return render(request, 'polls/detail.html', {'question': question})
     
 
