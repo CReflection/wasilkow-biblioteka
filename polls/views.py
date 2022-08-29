@@ -19,8 +19,6 @@ def index(request):
         'latest_question_list': latest_question_list,
         'points': request.session['points']
     }
-    print(request.session['answered_questions'])
-    print(request.session['picked_question_id'])
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
