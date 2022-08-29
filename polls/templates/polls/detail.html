@@ -46,6 +46,7 @@
                         {% for answer in question.answer_set.all %}
                         <input class="form-check-input" required type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
                         <label class="form-check-label" for="answer{{ forloop.counter }}">{{answer.answer_text}}</label><br>
+                        <input type="hidden" id="question_id" name="question_id" value="{{ question.question_id }}"
                         {% endfor %}
                     </fieldset>
                     <br>

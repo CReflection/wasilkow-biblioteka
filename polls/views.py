@@ -24,7 +24,7 @@ def index(request):
     return render(request, 'polls/index.html', context)
 
 def detail(request, question_id):
-    question = get_object_or_404(Question, pk=int(question_id))
+    question = get_object_or_404(Question, pk=request.POST['answer'])
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
 
