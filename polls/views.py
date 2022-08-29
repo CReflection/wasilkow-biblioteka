@@ -12,7 +12,17 @@ def index(request):
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    if not request.session.get('answered_questions',None):
+        request.session['answered_questions'] = ""
+    
+    print(request.session['answered_questions'])
+    cookie_list = request.session['answered_questions'].split("'").pop()
+    print(cookie_list)
+    if str(question_id) in cookie_list:
+        return HttpResponse("Już odpowiedziałeś :]")
     if request.method == "POST":
+        request.session['answered_questions'] += str(question_id) + "'"
+        print("grok", request.session.get('answered_questions',question_id))
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         if(answer.valid):
             return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
@@ -27,3 +37,5 @@ def results(request, question_id):
 
 def vote(request, question_id):
     return HttpResponse("You're voting on question %s." % question_id)
+
+
