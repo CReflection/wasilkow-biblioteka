@@ -4,6 +4,10 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render 
 
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
+
 from .models import Question, Answer
 
 
@@ -94,3 +98,13 @@ def randomQuestion(request):
 
 
 
+def qr(request):
+    context = {}
+    if request.method == "POST":
+        factory = qrcode.image.svg.SvgImage
+        img = qrcode.make(request.POST.get("qr_text",""), image_factory=factory, box_size=20)
+        stream = BytesIO()
+        img.save(stream)
+        context["svg"] = stream.getvalue().decode()
+
+    return render(request, "polls/generator_qr.html", context=context) 

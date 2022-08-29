@@ -5,9 +5,9 @@ from django.utils import timezone
 
 class Question(models.Model):
     question_text = models.CharField('Pytanie', max_length=200)
+    quote = models.CharField('Cytat', null=True, blank=True, max_length=300)
     image = models.ImageField('Obrazek', null=True, blank=True, upload_to="images/")
     
-
     def __str__(self):
         return str(self.question_text)
     
@@ -29,5 +29,16 @@ class Answer(models.Model):
     class Meta:
         verbose_name = "odpowiedź"
         verbose_name_plural = "Odpowiedzi"
+
+class ScoreBoard(models.Model):
+    name = models.CharField('Uczestnik',max_length=120)
+    score = models.IntegerField('wynik')
+
+    def __str__(self):
+        return str(self.name)
+    
+    class Meta:
+        verbose_name = "uczestnik"
+        verbose_name_plural = "Tablica wyników"
 
 # Create your models here.
