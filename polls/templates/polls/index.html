@@ -35,7 +35,7 @@
                 <a class="nav-link active" aria-current="page" href="{% url 'polls:index' %}">Strona główna</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="{% url 'polls:wyniki' %}">Tabela Wyników</a>
+                <a class="nav-link" href="#">Tabela Wyników</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Kontakt</a>
@@ -43,12 +43,27 @@
             </ul>
           </div>
         </div>
+      </nav>
+
+
+
+    <nav class="navbar navbar-expand-sm bg-light justify-content-around text-center">
+        <div class="col-sm-4 nav-item">
+            <a class="nav-link font-weight-bold" href="{% url 'polls:index' %}">Strona główna</a>
+        </div>
+        <div class="col-sm-4 nav-item">
+            <a class="nav-link font-weight-bold" href="#">Tabela Wyników</a>
+        </div>
+        <div class="col-sm-4 nav-item ">
+            <a class="nav-link font-weight-bold" href="#">Kontakt</a>
+        </div>
     </nav>
-    <br>
+
+
     {% if latest_question_list %}
     <ul>
         {% for question in latest_question_list %}
-          <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
         {% endfor %}
     </ul>
     {% else %}
