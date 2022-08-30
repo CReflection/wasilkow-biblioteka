@@ -19,27 +19,8 @@ def index(request):
         'latest_question_list': latest_question_list,
         'points': request.session['points']
     }
+    print("Question ID(index) =", request.session['picked_question_id'])
     return render(request, 'polls/index.html', context)
-
-def detail(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    if not request.session.get('answered_questions',None):
-        request.session['answered_questions'] = ""
-
-    cookie_list = request.session['answered_questions'].split("'").pop()
-    if str(question_id) in cookie_list:
-        return HttpResponse("Już odpowiedziałeś :]")
-    if request.method == "POST":
-        request.session['answered_questions'] += str(question_id) + "'"
-        answer = get_object_or_404(Answer, pk=request.POST['answer'])
-        if(answer.valid):
-            request.session['points'] += 1
-            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
-        else:
-            return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
-    return render(request, 'polls/detail.html', {'question': question})
-
-
 
 #Sprawdzanie czy jesteś w trakcie odpowiadania na inne pytanie
 #(jeżeli ktoś np zrefreshował stronę po otrzymaniu pytania)
@@ -54,13 +35,14 @@ def getRandomQuestionId(request):
 def randomQuestion(request):
     if request.method == "POST":
         question_id = request.POST['question_id']
-        print(question_id)
-        print(request.session['answered_questions'])
+        print("Question id",question_id)
+        print("Odpowiedziane pytania",request.session['answered_questions'])
         question = get_object_or_404(Question, pk=question_id)
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         request.session['picked_question_id'] = None
         
         cookie_list = request.session['answered_questions'].split("'").pop()
+        print("lista odpowiedzi", cookie_list)
         if str(question_id) in cookie_list:
             return HttpResponse("Coś poszło nie tak, już odpowiedziałeś na to pytanie spróbuj ponownie.")
 
@@ -69,7 +51,9 @@ def randomQuestion(request):
             request.session['points'] += 1
             return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
         else:
-            question = get_object_or_404(Question, pk=getRandomQuestionId(request))
+            new_question_id = getRandomQuestionId(request)
+            question = get_object_or_404(Question, pk=new_question_id)
+            request.session['picked_question_id'] = new_question_id
             return render(request, 'polls/detail.html', {'question': question})
 
     #Jeżeli nie odpowiedziałeś na żadne pytanie wcześniej ustaw zmienną w cookies
@@ -101,3 +85,22 @@ def qr(request):
         context["svg"] = stream.getvalue().decode()
 
     return render(request, "polls/generator_qr.html", context=context) 
+
+def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    if not request.session.get('answered_questions',None):
+        request.session['answered_questions'] = ""
+
+    cookie_list = request.session['answered_questions'].split("'").pop()
+    if str(question_id) in cookie_list:
+        return HttpResponse("Już odpowiedziałeś :]")
+    if request.method == "POST":
+        request.session['answered_questions'] += str(question_id) + "'"
+        answer = get_object_or_404(Answer, pk=request.POST['answer'])
+        if(answer.valid):
+            request.session['points'] += 1
+            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+        else:
+            return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+    return render(request, 'polls/detail.html', {'question': question})
+
