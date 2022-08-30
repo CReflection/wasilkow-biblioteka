@@ -10,7 +10,7 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     {% bootstrap_messages %}
-    <link rel="stylesheet" href="{% static 'css/quiz_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/table_score_board.css' %}">
     <title>Quiz o Mickiewiczu</title>
 </head>
 
@@ -44,17 +44,27 @@
         </div>
     </nav>
     <br>
-    {% if latest_question_list %}
-    <ul>
-        {% for question in latest_question_list %}
-          <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% if participants %}
+    <div class="table" align="center">
+      <table>
+        <tr>
+          <td colspan="2">Tablica Wyników</td>
+        </tr>
+        <tr>
+          <td>Uczestnik</td>
+          <td>Punkty</td>
+        </tr>
+        {% for participant in participants %}
+        <tr>
+          <td>{{ participant.name }}</td> 
+          <td>{{ participant.score }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+        
+      </table>
     {% else %}
-    <p>No polls are available.</p>
+      <p align="center">Wybrańcy się jeszcze nie pojawili. Możesz być pierwszy :)</p>
     {% endif %}
-    <div class="col-sm-3">
-        <h3>Liczba punktów: {{ points }}</h3>
     </div>
 </body>
 

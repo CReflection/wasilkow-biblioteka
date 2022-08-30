@@ -8,7 +8,7 @@ import qrcode
 import qrcode.image.svg
 from io import BytesIO
 
-from .models import Question, Answer
+from .models import Question, Answer, ScoreBoard
 
 
 def index(request):
@@ -39,12 +39,7 @@ def detail(request, question_id):
             return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
     return render(request, 'polls/detail.html', {'question': question})
 
-def results(request, question_id):
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % question_id)
 
-def vote(request, question_id):
-    return HttpResponse("You're voting on question %s." % question_id)
 
 #Sprawdzanie czy jesteś w trakcie odpowiadania na inne pytanie
 #(jeżeli ktoś np zrefreshował stronę po otrzymaniu pytania)
@@ -92,9 +87,9 @@ def randomQuestion(request):
     print(request.session['picked_question_id'])
     return render(request, 'polls/detail.html', {'question': question})
     
-
-
-
+def score(request):
+    participants = ScoreBoard.objects.all().order_by('-score')
+    return render(request, "polls/score_board.html", {'participants': participants})
 
 def qr(request):
     context = {}
