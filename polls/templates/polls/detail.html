@@ -15,15 +15,10 @@
 </head>
 
 <body>
-    <div class="row text-center">
-        <div class="d-flex justify-content-center">
-            <img src="{% static 'images/temp_banner.jpg' %}" alt="baner brak">
-        </div>
-    </div>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Quiz o Mickiewiczu</a>
+          <a class="navbar-brand" href="#" >Quiz Mickiewicz i Jego dzieła</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -59,11 +54,13 @@
                         </div>
                         <br>
                         {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-                        {% for answer in question.answer_set.all %}
-                        <input class="form-check-input" required type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
-                        <label class="form-check-label" for="answer{{ forloop.counter }}">{{answer.answer_text}}</label><br>
-                        <input type="hidden" id="question_id" name="question_id" value="{{ question.id }}">
-                        {% endfor %}
+                        <div class="radio-toolbar">
+                          {% for answer in question.answer_set.all %}
+                          <input class="form-check-input" required type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
+                          <label class="form-check-label" for="answer{{ forloop.counter }}">{{answer.answer_text}}</label><br>
+                          <input type="hidden" id="question_id" name="question_id" value="{{ question.id }}">
+                          {% endfor %}
+                        </div>
                     </fieldset>
                     <br>
                     <input type="submit" value="Zatwierdź" class="btn btn-success">
@@ -80,6 +77,20 @@
             </div>
         </div>
     </div>
+
+
+
+<footer>
+
+
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2022 Copyright:
+    <a class="text-reset fw-bold" href="http://mbpwasilkow.pl/">Miejska Biblioteka Publiczna w Wasilkowie</a>
+    <img src="{% static 'images/logo biblioteki.jpg' %}" class="img-thumbnail" width="50">
+  </div>
+  
+</footer>
+
 
 
 </body>
