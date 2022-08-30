@@ -29,10 +29,15 @@ def getRandomQuestionId(request):
     cookie_list = set(request.session['answered_questions'].split("'"))
     #Wybierz pytanie na które jeszcze użytownik nie odpowiedział za pomocą cookiesów i wszystkich pytań
     possible_ids = list(list_of_ids - cookie_list)
-    question_id = int(random.choice(possible_ids))
-    return question_id
+    if possible_ids:
+        question_id = int(random.choice(possible_ids))
+        return question_id
+    else:
+        return None
 
 def randomQuestion(request):
+    if not request.session.get('points', None):
+        request.session['points'] = 0
     if request.method == "POST":
         question_id = request.POST['question_id']
         print("Question id",question_id)
@@ -41,7 +46,7 @@ def randomQuestion(request):
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         request.session['picked_question_id'] = None
         
-        cookie_list = request.session['answered_questions'].split("'").pop()
+        cookie_list = request.session['answered_questions'].split("'")
         print("lista odpowiedzi", cookie_list)
         if str(question_id) in cookie_list:
             return HttpResponse("Coś poszło nie tak, już odpowiedziałeś na to pytanie spróbuj ponownie.")
@@ -52,9 +57,14 @@ def randomQuestion(request):
             return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
         else:
             new_question_id = getRandomQuestionId(request)
+            if not new_question_id:
+                return HttpResponse("Skończyły się już pytania :P")
             question = get_object_or_404(Question, pk=new_question_id)
             request.session['picked_question_id'] = new_question_id
-            return render(request, 'polls/detail.html', {'question': question})
+            context = {
+                'question': question,
+            }
+            return render(request, 'polls/detail.html', context)
 
     #Jeżeli nie odpowiedziałeś na żadne pytanie wcześniej ustaw zmienną w cookies
     #Która będzie trzymała te informacje
@@ -66,10 +76,15 @@ def randomQuestion(request):
     else:
         #Jeżeli w trakcie odpowiadania na pytanie przydziel odpowiednie pytanie
         question_id = int(request.session['picked_question_id'])
+    if not question_id:
+        return HttpResponse("Skończyły się już pytania :P")
     request.session['picked_question_id'] = str(question_id)
     question = get_object_or_404(Question, pk=question_id)
     print(request.session['picked_question_id'])
-    return render(request, 'polls/detail.html', {'question': question})
+    context = {
+        'question': question,
+    }
+    return render(request, 'polls/detail.html', context)
     
 def score(request):
     participants = ScoreBoard.objects.all().order_by('-score')
@@ -87,6 +102,8 @@ def qr(request):
     return render(request, "polls/generator_qr.html", context=context) 
 
 def detail(request, question_id):
+    if not request.session.get('points', None):
+        request.session['points'] = 0
     question = get_object_or_404(Question, pk=question_id)
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
@@ -102,5 +119,8 @@ def detail(request, question_id):
             return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
         else:
             return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
-    return render(request, 'polls/detail.html', {'question': question})
+    context = {
+        'question': question,
+    }
+    return render(request, 'polls/detail.html', context)
 

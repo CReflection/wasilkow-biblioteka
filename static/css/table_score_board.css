@@ -5,6 +5,15 @@ td{
     height: 40px;
 }
 
+div.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: yellow;
+    font-size: 20px;
+    padding: 50px
+}
+
 .table {
     margin: 0px auto;
     border: 1px solid black;
