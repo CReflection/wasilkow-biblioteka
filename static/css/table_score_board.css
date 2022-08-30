@@ -5,13 +5,13 @@ td{
     height: 40px;
 }
 
-div.sticky {
+.sticky {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
-    background-color: yellow;
+    background-color: rgb(165, 165, 161);
     font-size: 20px;
-    padding: 50px
+    padding: 50px;
 }
 
 .table {

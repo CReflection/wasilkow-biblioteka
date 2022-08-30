@@ -19,7 +19,7 @@ def index(request):
         'latest_question_list': latest_question_list,
         'points': request.session['points']
     }
-    print("Question ID(index) =", request.session['picked_question_id'])
+    #print("Question ID(index) =", request.session['picked_question_id'])
     return render(request, 'polls/index.html', context)
 
 #Sprawdzanie czy jesteś w trakcie odpowiadania na inne pytanie
