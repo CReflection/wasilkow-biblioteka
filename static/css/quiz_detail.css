@@ -8,8 +8,22 @@ body {
 }
 
 
+
 .container {
     margin: 20px auto;
+}
+
+
+.navbar-brand{
+    margin-left: 20px;
+}
+
+.collapse{
+    margin-right: 80px;
+}
+
+.nav-item{
+    padding-left: 20px;
 }
 
 fieldset {
@@ -62,6 +76,8 @@ fieldset {
     color: #FFFFFF;
     background-color: #212529;
     margin: auto 20px;
+    padding: 13px 20px 13px 20px;
+    border-radius: 8px;
 }
 .btn-success:hover{
     background-color: #495057;
@@ -72,6 +88,30 @@ fieldset {
 
 
 
+.container_info{
+    background-color: #212529;
+    color: #FFFFFF;
+    padding: 80px;
+}
 
+.container_info p{
+    margin-bottom: auto;
+}
+
+
+
+
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 15%;
+  }
+
+.footer-contact a{
+    color: #212529;
+    font-weight: bold;
+}
 
   
