@@ -7,6 +7,50 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
+.main {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* Make the image responsive */
+.main img {
+    width: 100%;
+    height: auto;
+}
+
+.main .btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    font-size: 30px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+.main .h3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    font-size: 30px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.contact_data{
+    display: flex;
+    align-items: center;
+}
+
+.contact_data{
+    margin: 20px;
+}
 
 
 .container {
@@ -98,10 +142,6 @@ fieldset {
     border-radius: 8px;
 }
 
-.score{
-    text-align: center;
-}
-
 
 
 .container_info{
@@ -127,16 +167,6 @@ fieldset {
     clear: both;
   }
 
-
-.contact_data{
-    text-align: end;
-    margin: auto;
-    border: 3px solid green;
-}
-.contact{
-    margin: auto;
-    border: 3px solid PINK;
-}
 
 .center {
     display: block;
