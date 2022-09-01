@@ -62,6 +62,7 @@ fieldset {
     padding: 10px 20px;
     border: 3px solid #212529;
     transform: skew(-20deg);
+    width: 300px;
     }
 /*
 .radio-toolbar label:after {
@@ -85,20 +86,20 @@ fieldset {
     color:#FFFFFF;
 }
 
+.button_score{
+    margin: 50px auto 50px auto;
+    text-align: center;
+    font-weight: 800;
+}
 
+.btn{
 
-.btn-success{
-    color: #FFFFFF;
-    background-color: #212529;
-    margin: auto 20px;
     padding: 13px 20px 13px 20px;
     border-radius: 8px;
 }
-.btn-success:hover{
-    background-color: #495057;
-}
-.btn-success:checked{
-    border: 3px solid #D3D3D3;
+
+.score{
+    text-align: center;
 }
 
 
@@ -114,8 +115,28 @@ fieldset {
 }
 
 
+.column {
+    float: left;
+    width: 50%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 
 
+.contact_data{
+    text-align: end;
+    margin: auto;
+    border: 3px solid green;
+}
+.contact{
+    margin: auto;
+    border: 3px solid PINK;
+}
 
 .center {
     display: block;
@@ -159,4 +180,35 @@ fieldset {
         opacity: 0;
         bottom: -20px;
     }
+}
+
+
+
+
+
+/* TABLE SCORE  
+td{ 
+    border: 1px solid black; 
+    text-align: center;
+    width: 400px;
+    height: 40px;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    background-color: rgb(165, 165, 161);
+    font-size: 20px;
+    padding: 50px;
+}
+*/
+
+.container h2 {
+    font-weight: bold;
+}
+
+.table {
+    margin: 30px auto;
+    overflow: auto;
 }
