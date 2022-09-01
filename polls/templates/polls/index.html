@@ -59,7 +59,7 @@
                 <label class="form-label">Nazwa</label><br>
                 <input type="text" class="form-control" name="username" id="username" required><br>
                 <label class="form-label">Twój czas</label><br>
-                <h2>{{ time_passed }}</h2><br>
+                <h2 class="view-time"></h2><br>
                 <label class="form-label">Punkty:</label>
                 <h2>{{ points }}</h2>
               </fieldset>
@@ -159,7 +159,10 @@
 
     </footer>
   </div>
-
+<script>
+  var start_time = '{{ time_passed }}'
+</script>
+<script src="{% static 'js/main.js' %}"></script>
 </body>
 
 </html>

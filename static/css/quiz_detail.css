@@ -193,6 +193,7 @@ fieldset {
     animation-fill-mode: forwards;
     box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
     opacity: 90%;
+    z-index: 3;
 }
 
 @keyframes fade-out {
