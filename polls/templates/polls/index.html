@@ -38,11 +38,46 @@
       </div>
     </div>
   </nav>
+  
+  {% if not request.session.in_scoreboard and points > 0 %}
 
-  {% if alert %}
-    <div class="quiz-alert alert alert-success" role="alert">
-      {{ alert }}
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Dodaj swój wynik
+  </button>
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Zapisz swój wynik!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+              <label class="form-label">Nazwa</label><br>
+              <input type="text" class="form-control" name="username" id="username" required><br>
+              <label class="form-label">Twój czas</label><br>
+              <h2>{{ time_passed }}</h2><br>
+              <label class="form-label">Punkty:</label>
+              <h2>{{ points }}</h2>
+            </fieldset>
+            <br>
+            <div class="modal-footer">
+              <input type="submit" value="Zatwierdź" class="btn btn-success">
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
+
+  {% endif %}
+  {% if alert %}
+  <div class="quiz-alert alert alert-success" role="alert">
+    {{ alert }}
+  </div>
   {% endif %}
 
   <p><a href="{% url 'admin:index' %}">Admin panel</a></p>
