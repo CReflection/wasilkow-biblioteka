@@ -76,22 +76,21 @@
 
   
   <div class="main">
-    <img src="{% static 'images/raczki.jpg' %}" class="responsive">
-      <div class="button_score">
-        {% if not request.session.in_scoreboard and points > 0 %}
-          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-              Dodaj swój wynik
-          </button>
-        {% endif %}
-      </div>
-      {% if alert %}
-        <div class="quiz-alert alert alert-success" role="alert">
-          {{ alert }}
-        </div>
+    <img src="{% static 'images/raczki_2.jpg' %}" class="mx-auto d-block responsive">
+    <div class="button_score">
+      {% if not request.session.in_scoreboard and points > 0 %}
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Dodaj swój wynik
+        </button>
       {% endif %}
-      <div class="score">
-        <h3>Liczba punktów: {{ points }}</h3>
+    </div>
+    {% if alert %}
+      <div class="quiz-alert alert alert-success" role="alert">
+        {{ alert }}
       </div>
+    {% endif %}
+    <div class="score">
+      <h3>Liczba punktów: {{ points }}</h3>
     </div>
   </div>
 

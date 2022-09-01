@@ -14,8 +14,9 @@ body {
   
   /* Make the image responsive */
 .main img {
-    width: 100%;
+    width: 50%;
     height: auto;
+    display: block;
 }
 
 .main .btn {
@@ -30,18 +31,15 @@ body {
     cursor: pointer;
     border-radius: 5px;
   }
-.main .h3 {
+.main h3 {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    font-size: 30px;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
 }
+
+
+
 
 .contact_data{
     display: flex;

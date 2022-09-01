@@ -50,6 +50,7 @@
             <th scope="col">#</th>
             <th scope="col">Uczestnik</th>
             <th scope="col">Punkty</th>
+            <th scope="col">Czas</th>
           </tr>
         </thead>
         <tbody>
@@ -58,6 +59,7 @@
             <th scope="row">{{forloop.counter}}</th>
             <td>{{ participant.name }}</td> 
             <td>{{ participant.score }}</td>
+            <td>{{ participant.time_passed }}</td>
           </tr>
           {% endfor %}
         </tbody>
