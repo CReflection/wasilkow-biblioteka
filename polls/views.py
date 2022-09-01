@@ -50,7 +50,13 @@ def randomQuestion(request):
         request.session['answered_questions'] += str(question_id) + "'"
         if(answer.valid):
             request.session['points'] += 1
-            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+            latest_question_list = Question.objects.all()
+            context = {
+                'latest_question_list': latest_question_list,
+                'points': request.session['points'],
+                'alert': 'Odpowiedziałeś poprawnie na ten QR, znajdź następny :)',
+            }
+            return render(request, 'polls/index.html', context)
         else:
             list_of_ids = set(str(x) for x in Question.objects.all().values_list('id', flat=True))
             new_question_id = getRandomQuestionId(request,list_of_ids)
@@ -126,8 +132,13 @@ def groupQuestion(request, group_hash):
         request.session['answered_questions'] += str(question_id) + "'"
         if(answer.valid):
             request.session['points'] += 1
-            request.session['answered_groups'] += str(group_hash) + "'"
-            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+            latest_question_list = Question.objects.all()
+            context = {
+                'latest_question_list': latest_question_list,
+                'points': request.session['points'],
+                'alert': 'Odpowiedziałeś poprawnie na ten QR, znajdź następny :)',
+            }
+            return render(request, 'polls/index.html', context)
         else:
             new_question_id = getRandomQuestionId(request,group_question_ids)
             if not new_question_id:
