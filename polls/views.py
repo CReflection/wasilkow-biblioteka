@@ -41,6 +41,9 @@ def index(request):
             request.session['in_scoreboard'] = True
     return render(request, 'polls/index.html', context)
 
+def contact(request):
+    return render(request, 'polls/contact.html')
+
 #Sprawdzanie czy jesteś w trakcie odpowiadania na inne pytanie
 #(jeżeli ktoś np zrefreshował stronę po otrzymaniu pytania)
 def getRandomQuestionId(request, question_id_list):
