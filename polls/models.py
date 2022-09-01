@@ -2,7 +2,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
-
+from datetime import timedelta
 
 class Group(models.Model):
     name = models.CharField('Grupa', max_length=120)
@@ -48,6 +48,7 @@ class Answer(models.Model):
 class ScoreBoard(models.Model):
     name = models.CharField('Uczestnik',max_length=120)
     score = models.IntegerField('wynik')
+    time_passed = models.DurationField(null=True)
 
     def __str__(self):
         return str(self.name)

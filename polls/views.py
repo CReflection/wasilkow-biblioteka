@@ -3,24 +3,46 @@ import random
 from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import get_object_or_404, render 
+from datetime import datetime as dt
+import datetime
 
 import qrcode
 import qrcode.image.svg
 from io import BytesIO
-
 from .models import Question, Answer, ScoreBoard, Group
 
 
 def index(request):
     latest_question_list = Question.objects.all()
+    time_passed = None
+
     if not request.session.get('points', None):
         request.session['points'] = 0
+    if not request.session.get('in_scoreboard', None):
+        request.session['in_scoreboard'] = False
+
     context = {
         'latest_question_list': latest_question_list,
-        'points': request.session['points']
+        'points': request.session['points'],
     }
-    #print("Question ID(index) =", request.session['picked_question_id'])
+
+    if not request.session.get('start_time', None):
+        request.session['start_time'] = None
+    else:
+        time_passed = dt.now() - dt.fromisoformat(request.session['start_time'])
+        context['time_passed'] = str(time_passed).split(".")[0]
+    
+    if request.method == "POST":
+        if request.session['points'] == 0 or request.POST['username'] == "":
+            context['alert'] = "Coś poszło nie tak, spróbuj ponownie"
+        else:
+            ScoreBoard.objects.create(name=request.POST['username'], score=context['points'], time_passed=time_passed).save()
+            context['alert'] = "Zostałeś dodany do tabeli wyników!"
+            request.session['in_scoreboard'] = True
     return render(request, 'polls/index.html', context)
+
+def contact(request):
+    return render(request, 'polls/contact.html')
 
 #Sprawdzanie czy jesteś w trakcie odpowiadania na inne pytanie
 #(jeżeli ktoś np zrefreshował stronę po otrzymaniu pytania)
@@ -35,6 +57,8 @@ def getRandomQuestionId(request, question_id_list):
         return None
 
 def randomQuestion(request):
+    if not request.session.get('start_time', None):
+        request.session['start_time'] = str(dt.now())
     if not request.session.get('points', None):
         request.session['points'] = 0
     if request.method == "POST":
@@ -50,7 +74,13 @@ def randomQuestion(request):
         request.session['answered_questions'] += str(question_id) + "'"
         if(answer.valid):
             request.session['points'] += 1
-            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+            latest_question_list = Question.objects.all()
+            context = {
+                'latest_question_list': latest_question_list,
+                'points': request.session['points'],
+                'alert': 'Odpowiedziałeś poprawnie na ten QR, znajdź następny :)',
+            }
+            return render(request, 'polls/index.html', context)
         else:
             list_of_ids = set(str(x) for x in Question.objects.all().values_list('id', flat=True))
             new_question_id = getRandomQuestionId(request,list_of_ids)
@@ -104,6 +134,8 @@ def groupQuestion(request, group_hash):
         request.session['points'] = 0
     if not request.session.get('answered_groups', None):
         request.session['answered_groups'] = ""
+    if not request.session.get('start_time', None):
+        request.session['start_time'] = str(dt.now())
     
     answered_groups = request.session['answered_groups'].split("'")
     print(answered_groups)
@@ -126,8 +158,13 @@ def groupQuestion(request, group_hash):
         request.session['answered_questions'] += str(question_id) + "'"
         if(answer.valid):
             request.session['points'] += 1
-            request.session['answered_groups'] += str(group_hash) + "'"
-            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+            latest_question_list = Question.objects.all()
+            context = {
+                'latest_question_list': latest_question_list,
+                'points': request.session['points'],
+                'alert': 'Odpowiedziałeś poprawnie na ten QR, znajdź następny :)',
+            }
+            return render(request, 'polls/index.html', context)
         else:
             new_question_id = getRandomQuestionId(request,group_question_ids)
             if not new_question_id:
@@ -166,6 +203,8 @@ def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
+    if not request.session.get('start_time', None):
+        request.session['start_time'] = str(dt.now())
 
     cookie_list = request.session['answered_questions'].split("'").pop()
     if str(question_id) in cookie_list:
