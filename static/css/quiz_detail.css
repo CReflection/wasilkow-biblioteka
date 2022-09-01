@@ -12,6 +12,21 @@ body {
 .container {
     margin: 20px auto;
 }
+.container a{
+    color: #212529;
+}
+.container a:hover{
+    color: #495057;
+}
+
+.list{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.list_question{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 
 
 .navbar-brand{
