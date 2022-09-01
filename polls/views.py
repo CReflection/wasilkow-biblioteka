@@ -30,8 +30,8 @@ def index(request):
     if not request.session.get('start_time', None):
         request.session['start_time'] = None
     else:
-        time_passed = dt.now() - dt.fromisoformat(request.session['start_time'])
-        context['time_passed'] = str(time_passed).split(".")[0]
+        # time_passed = dt.now() - dt.fromisoformat(request.session['start_time'])
+        context['time_passed'] = str(dt.fromisoformat(request.session['start_time']))
     
     if request.method == "POST":
         if request.session['points'] == 0 or request.POST['username'] == "":
@@ -222,7 +222,7 @@ def detail(request, question_id):
     if not request.session.get('start_time', None):
         request.session['start_time'] = str(dt.now())
     
-    context['time_passed'] = str(dt.now() - dt.fromisoformat(request.session['start_time'])).split(".")[0]
+    context['time_passed'] = str(dt.now())
 
     cookie_list = request.session['answered_questions'].split("'")
     if str(question_id) in cookie_list:
