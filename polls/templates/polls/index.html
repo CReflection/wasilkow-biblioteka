@@ -18,7 +18,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Quiz o życiu i twórczości Adama Mickiewicza</a>
+      <a class="navbar-brand" href="{% url 'polls:index' %}">Quiz o życiu i twórczości Adama Mickiewicza</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -29,15 +29,20 @@
             <a class="nav-link active" aria-current="page" href="{% url 'polls:index' %}">Strona główna</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="{% url 'polls:wyniki' %}">Tabela Wyników</a>
+            <a class="nav-link" href="{% url 'polls:wyniki' %}">Tabela Wyników</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Kontakt</a>
+            <a class="nav-link" href="{% url 'polls:contact' %}">Kontakt</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
+
+
+
+
+  
   
   {% if not request.session.in_scoreboard and points > 0 %}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,7 +65,7 @@
               </fieldset>
               <br>
               <div class="modal-footer">
-                <input type="submit" value="Zatwierdź" class="btn btn-success">
+                <input type="submit" value="Zatwierdź" class="btn btn-dark">
               </div>
             </form>
           </div>
@@ -68,25 +73,29 @@
       </div>
     </div>
   {% endif %}
-      
+
+
+  
   <div class="container">
-    <div class="links">
+    <div class="button_score">
       {% if not request.session.in_scoreboard and points > 0 %}
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Dodaj swój wynik
         </button>
       {% endif %}
-      <p><a href="{% url 'admin:index' %}">Admin panel</a></p>
-      <p><a href="{% url 'polls:randomQuestion' %}">Losowe pytanie z bazy</a></p>
-      <p><a href="{% url 'polls:qr' %}">Generator kodów QR prototyp</a></p>
     </div>
-  
     {% if alert %}
       <div class="quiz-alert alert alert-success" role="alert">
         {{ alert }}
       </div>
     {% endif %}
-
+    <div class="score">
+      <h3>Liczba punktów: {{ points }}</h3>
+    </div>
+  </div>
+  
+<!--
+  <div class="container">
     <div class="list">
       <h2>Lista pytań:</h2>
         <div class="list_question">
@@ -101,10 +110,10 @@
         {% endif %}
       </div>
     </div>
-    <div class="col-sm-3">
-        <h3>Liczba punktów: {{ points }}</h3>
-    </div>
   </div>
+-->
+
+
 
   <div class="container_info">
     <div class="text-center">
