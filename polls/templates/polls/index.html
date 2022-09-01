@@ -80,8 +80,10 @@
     <div class="button_score">
       {% if not request.session.in_scoreboard and points > 0 %}
         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Dodaj swój wynik
+            Dodaj swój wynik = {{ points }} 
         </button>
+      {% else %}
+      <h3>Liczba punktów: {{ points }}</h3>
       {% endif %}
     </div>
     {% if alert %}
@@ -89,9 +91,6 @@
         {{ alert }}
       </div>
     {% endif %}
-    <div class="score">
-      <h3>Liczba punktów: {{ points }}</h3>
-    </div>
   </div>
 
 
