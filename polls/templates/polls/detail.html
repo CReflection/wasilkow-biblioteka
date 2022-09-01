@@ -37,9 +37,13 @@
       </div>
     </div>
   </nav>
-
-
       
+  {% if alert %}
+  <div class="quiz-alert alert alert-success" role="alert">
+    {{ alert }}
+  </div>
+  {% endif %}
+
   <div class="container">
     <div class="row question">
         <div class="col d-flex align-items-center">

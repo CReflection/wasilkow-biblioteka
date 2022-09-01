@@ -1,6 +1,6 @@
 import random
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import get_object_or_404, render 
 from datetime import datetime as dt
@@ -11,7 +11,6 @@ import qrcode.image.svg
 from io import BytesIO
 from .models import Question, Answer, ScoreBoard, Group
 
-
 def index(request):
     latest_question_list = Question.objects.all()
     time_passed = None
@@ -20,6 +19,8 @@ def index(request):
         request.session['points'] = 0
     if not request.session.get('in_scoreboard', None):
         request.session['in_scoreboard'] = False
+
+    print(request.session.keys(),request.session.values())
 
     context = {
         'latest_question_list': latest_question_list,
@@ -136,49 +137,53 @@ def groupQuestion(request, group_hash):
         request.session['answered_groups'] = ""
     if not request.session.get('start_time', None):
         request.session['start_time'] = str(dt.now())
-    
+    latest_question_list = Question.objects.all()
+    context = {
+        'latest_question_list': latest_question_list,
+        'points': request.session['points'],
+    }
+
     answered_groups = request.session['answered_groups'].split("'")
-    print(answered_groups)
     if str(group_hash) in answered_groups:
-        return HttpResponse("Już odpowiedziałeś na pytania w tym miejscu")
+        context['alert'] = "Nie udało ci się odpowiedzieć na żadne pytanie! Spróbuj znaleść inny QR."
+        return render(request, 'polls/index.html', context)
     group_question_ids = get_object_or_404(Group, hash=group_hash).question_set.all()
     group_question_ids = set(str(x) for x in group_question_ids.values_list('id', flat=True))
 
+    #Jeżeli dajesz postem
     if request.method == "POST":
         question_id = request.POST['question_id']
         question = get_object_or_404(Question, pk=question_id)
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         request.session['picked_question_id'] = None
         
+        #Sprawdź czy już odpowiedział na pytanie
         cookie_list = request.session['answered_questions'].split("'")
         if str(question_id) in cookie_list:
-            request.session['answered_groups'] += str(group_hash) + "'"
-            return HttpResponse("Coś poszło nie tak, już odpowiedziałeś na to pytanie spróbuj ponownie.")
+            request.session['alert'] = "Coś poszło nie tak, już odpowiedziałeś na poprzednie pytanie, spróbuj ponownie."
+            return HttpResponseRedirect(request.path_info)
 
+        #Jeżeli dobrze odpowiedział przekieruj do indexa
         request.session['answered_questions'] += str(question_id) + "'"
         if(answer.valid):
             request.session['points'] += 1
-            latest_question_list = Question.objects.all()
-            context = {
-                'latest_question_list': latest_question_list,
-                'points': request.session['points'],
-                'alert': 'Odpowiedziałeś poprawnie na ten QR, znajdź następny :)',
-            }
+            context['alert'] = 'Odpowiedziałeś poprawnie na pytanie, znajdź następny QR'
             return render(request, 'polls/index.html', context)
+        #Jeżeli nie to wygeneruj nowe pytanie
         else:
             new_question_id = getRandomQuestionId(request,group_question_ids)
             if not new_question_id:
                 request.session['answered_groups'] += str(group_hash) + "'"
-                return HttpResponse("Skończyły się już pytania :P")
+                context['alert'] = "Nie udało ci się odpowiedzieć na żadne pytanie! Spróbuj znaleść inny QR."
+                return render(request, 'polls/index.html', context)
             question = get_object_or_404(Question, pk=new_question_id)
             request.session['picked_question_id'] = new_question_id
             context = {
                 'question': question,
+                'alert': 'Źle odpowiedziałeś/aś na pytanie! Spróbuj ponownie.'
             }
             return render(request, 'polls/detail.html', context)
 
-    #Jeżeli nie odpowiedziałeś na żadne pytanie wcześniej ustaw zmienną w cookies
-    #Która będzie trzymała te informacje
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
     
@@ -188,36 +193,52 @@ def groupQuestion(request, group_hash):
         #Jeżeli w trakcie odpowiadania na pytanie przydziel odpowiednie pytanie
         question_id = int(request.session['picked_question_id'])
     if not question_id:
-        return HttpResponse("Skończyły się już pytania :P")
+        request.session['answered_groups'] += str(group_hash) + "'"
+        context['alert'] = "Nie udało ci się odpowiedzieć na żadne pytanie! Spróbuj znaleść inny QR."
+        return render(request, 'polls/index.html', context)
     request.session['picked_question_id'] = str(question_id)
     question = get_object_or_404(Question, pk=question_id)
     print(request.session['picked_question_id'])
     context = {
         'question': question,
     }
+
+    if request.session.get('alert', None):
+        context['alert'] = request.session['alert']
+        request.session['alert'] = None
+
     return render(request, 'polls/detail.html', context)
 
 def detail(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    context = {
+        'question': question,
+    }
+
     if not request.session.get('points', None):
         request.session['points'] = 0
-    question = get_object_or_404(Question, pk=question_id)
     if not request.session.get('answered_questions',None):
         request.session['answered_questions'] = ""
     if not request.session.get('start_time', None):
         request.session['start_time'] = str(dt.now())
+    
+    context['time_passed'] = str(dt.now() - dt.fromisoformat(request.session['start_time'])).split(".")[0]
 
-    cookie_list = request.session['answered_questions'].split("'").pop()
+    cookie_list = request.session['answered_questions'].split("'")
     if str(question_id) in cookie_list:
-        return HttpResponse("Już odpowiedziałeś :]")
+        context['alert'] = "Coś poszło nie tak, już odpowiedziałeś na poprzednie pytanie, spróbuj ponownie."
+        context['points'] = request.session['points']
+        return render(request, 'polls/index.html', context)
     if request.method == "POST":
         request.session['answered_questions'] += str(question_id) + "'"
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         if(answer.valid):
             request.session['points'] += 1
-            return HttpResponse("'" + answer.answer_text + "' jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
+            context['alert'] = 'Odpowiedziałeś poprawnie na pytanie, znajdź następny QR!'
+            context['points'] = request.session['points']
+            return render(request, 'polls/index.html', context)
         else:
-            return HttpResponse("'" + answer.answer_text + "' nie jest poprawną odpowiedzią na pytanie '" +question.question_text + "'")
-    context = {
-        'question': question,
-    }
+            context['alert'] = 'Nie udało ci się odpowiedzieć na to pytanie.'
+            context['points'] = request.session['points']
+            return render(request, 'polls/index.html', context)
     return render(request, 'polls/detail.html', context)
