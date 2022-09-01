@@ -12,7 +12,7 @@
   {% bootstrap_messages %}
   <link rel="stylesheet" href="{% static 'css/quiz_detail.css' %}">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-  <title>Quiz o Mickiewiczu</title>
+  <title>Quiz o życiu i twórczości Adama Mickiewicza</title>
 </head>
 
 <body>
@@ -40,94 +40,102 @@
   </nav>
   
   {% if not request.session.in_scoreboard and points > 0 %}
+    <div class="container">
+      
+    
 
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Dodaj swój wynik
-  </button>
-  
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Zapisz swój wynik!</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form method="POST">
-            {% csrf_token %}
-            <fieldset>
-              <label class="form-label">Nazwa</label><br>
-              <input type="text" class="form-control" name="username" id="username" required><br>
-              <label class="form-label">Twój czas</label><br>
-              <h2>{{ time_passed }}</h2><br>
-              <label class="form-label">Punkty:</label>
-              <h2>{{ points }}</h2>
-            </fieldset>
-            <br>
-            <div class="modal-footer">
-              <input type="submit" value="Zatwierdź" class="btn btn-success">
-            </div>
-          </form>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Zapisz swój wynik!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="POST">
+              {% csrf_token %}
+              <fieldset>
+                <label class="form-label">Nazwa</label><br>
+                <input type="text" class="form-control" name="username" id="username" required><br>
+                <label class="form-label">Twój czas</label><br>
+                <h2>{{ time_passed }}</h2><br>
+                <label class="form-label">Punkty:</label>
+                <h2>{{ points }}</h2>
+              </fieldset>
+              <br>
+              <div class="modal-footer">
+                <input type="submit" value="Zatwierdź" class="btn btn-success">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
   {% endif %}
-  {% if alert %}
-  <div class="quiz-alert alert alert-success" role="alert">
-    {{ alert }}
+      
+  <div class="container">
+    <div class="links">
+      {% if not request.session.in_scoreboard and points > 0 %}
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Dodaj swój wynik
+        </button>
+      {% endif %}
+      <p><a href="{% url 'admin:index' %}">Admin panel</a></p>
+      <p><a href="{% url 'polls:randomQuestion' %}">Losowe pytanie z bazy</a></p>
+      <p><a href="{% url 'polls:qr' %}">Generator kodów QR prototyp</a></p>
+    </div>
+  
+    {% if alert %}
+      <div class="quiz-alert alert alert-success" role="alert">
+        {{ alert }}
+      </div>
+    {% endif %}
+
+    <div class="list">
+      <h2>Lista pytań:</h2>
+        <div class="list_question">
+        {% if latest_question_list %}
+        <ul class="list-group">
+            {% for question in latest_question_list %}
+            <li class="list-group-item"><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No polls are available.</p>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-sm-3">
+        <h3>Liczba punktów: {{ points }}</h3>
+    </div>
   </div>
-  {% endif %}
-
-  <p><a href="{% url 'admin:index' %}">Admin panel</a></p>
-  <p><a href="{% url 'polls:randomQuestion' %}">Losowe pytanie z bazy</a></p>
-  <p><a href="{% url 'polls:qr' %}">Generator kodów QR prototyp</a></p>
-
-  <h2>Lista pytań:</h2>
-  {% if latest_question_list %}
-  <ul>
-    {% for question in latest_question_list %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>No polls are available.</p>
-  {% endif %}
-  <div class="col-sm-3">
-    <h3>Liczba punktów: {{ points }}</h3>
-  </div>
-
 
   <div class="container_info">
     <div class="text-center">
-      <b>Adam Mickiewicz</b>
+      <b>Adam Mickiewicz</b> 
       <p style="color: #212529">.</p>
-      <p>ur. 24 grudnia 1798</p>
-      <p>zm. 26 listopada 1855</p>
+      <p>ur. 24 grudnia 1798</p> 
+      <p>zm. 26 listopada 1855</p> 
       <p style="color: #212529">.</p>
       <p>polski poeta, publicysta, tłumacz, filozof, organizator i dowódca wojskowy, nauczyciel akademicki.</p>
     </div>
   </div>
-
-
-
+  
   <div id="footerwrap" class="tf box tf clear">
     <footer id="footer" class="tf_box pagewidth tf_scrollbar tf_rel">
       <div class="main-col">
         <div class="footer-left-wrap">
           <div id="footer-logo">
-            <a href="http://mbpwasilkow.pl/" title="Miejska Biblioteka Publiczna w Wasilkowie">
-              <img src="{% static 'images/logo biblioteki.jpg' %}" alt="miejska biblioteka publiczna w wasilkowie"
-                width="200" class="center">
+            <a href="http://mbpwasilkow.pl/" title="Miejska Biblioteka Publiczna w Wasilkowie" >
+              <img src="{% static 'images/logo biblioteki.jpg' %}" alt="miejska biblioteka publiczna w wasilkowie" width="200" class="center">
             </a>
           </div>
           <div class="footer-contact">
             <div class="text-center p-4">
               <p>
-                tel:
+                tel: 
                 <a href="+48 85 718 52 32">+48 85 718 52 32</a>
-                ,
+                , 
                 <a href="+48 516 362 291">+48 516 362 291</a>
                 e-mail:
                 <a href="mailto:mbpwasilkow@home.pl">mbpwasilkow@home.pl</a>
@@ -144,7 +152,6 @@
 
     </footer>
   </div>
-
 
 </body>
 
