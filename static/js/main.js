@@ -12,8 +12,8 @@ function msToTime(s) {
     if(mins < 10){
         mins = "0" + mins
     }
-    if(hours < 10) {
-        hours = "0" + hours
+    if(hrs < 10) {
+        hrs = "0" + hrs
     }
     if(ms < 10) {
         ms = "000" + ms

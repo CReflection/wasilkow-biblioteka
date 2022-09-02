@@ -27,6 +27,10 @@ def index(request):
         'points': request.session['points'],
     }
 
+    if request.session.get('alert', None):
+        context['alert'] = request.session['alert']
+        request.session['alert'] = None
+
     if not request.session.get('start_time', None):
         request.session['start_time'] = None
     else:
@@ -37,6 +41,7 @@ def index(request):
         if request.session['points'] == 0 or request.POST['username'] == "":
             context['alert'] = "Coś poszło nie tak, spróbuj ponownie"
         else:
+            time_passed = dt.now() - dt.fromisoformat(request.session['start_time'])
             ScoreBoard.objects.create(name=request.POST['username'], score=context['points'], time_passed=time_passed).save()
             context['alert'] = "Zostałeś dodany do tabeli wyników!"
             request.session['in_scoreboard'] = True
@@ -222,23 +227,23 @@ def detail(request, question_id):
     if not request.session.get('start_time', None):
         request.session['start_time'] = str(dt.now())
     
-    context['time_passed'] = str(dt.now())
+    context['time_passed'] = str(dt.now())  
 
     cookie_list = request.session['answered_questions'].split("'")
     if str(question_id) in cookie_list:
-        context['alert'] = "Coś poszło nie tak, już odpowiedziałeś na poprzednie pytanie, spróbuj ponownie."
+        request.session['alert'] = "Coś poszło nie tak, już odpowiedziałeś na poprzednie pytanie, spróbuj ponownie."
         context['points'] = request.session['points']
-        return render(request, 'polls/index.html', context)
+        return HttpResponseRedirect('/')
     if request.method == "POST":
         request.session['answered_questions'] += str(question_id) + "'"
         answer = get_object_or_404(Answer, pk=request.POST['answer'])
         if(answer.valid):
             request.session['points'] += 1
-            context['alert'] = 'Odpowiedziałeś poprawnie na pytanie, znajdź następny QR!'
+            request.session['alert'] = 'Odpowiedziałeś poprawnie na pytanie, znajdź następny QR!'
             context['points'] = request.session['points']
-            return render(request, 'polls/index.html', context)
+            return HttpResponseRedirect('/')
         else:
             context['alert'] = 'Nie udało ci się odpowiedzieć na to pytanie.'
-            context['points'] = request.session['points']
-            return render(request, 'polls/index.html', context)
+            request.session['alert'] = request.session['points']
+            return HttpResponseRedirect('/')
     return render(request, 'polls/detail.html', context)
