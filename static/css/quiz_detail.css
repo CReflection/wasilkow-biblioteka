@@ -36,6 +36,10 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    background-color: #212529;
+    padding: 12px 24px;
+    color: #FFFFFF;
+    border-radius: 8px;
 }
 
 
@@ -70,7 +74,7 @@ body {
     margin-bottom: 30px;
 }
 
-
+/*  NAVBER */
 .navbar-brand{
     margin-left: 20px;
 }
@@ -172,6 +176,16 @@ fieldset {
     margin-right: auto;
     width: 15%;
   }
+
+.center_con {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+
+
 
 .footer-contact a{
     color: #212529;
