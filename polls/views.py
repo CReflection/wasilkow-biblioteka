@@ -128,7 +128,7 @@ def randomQuestion(request):
     return render(request, 'polls/detail.html', context)
     
 def score(request):
-    participants = ScoreBoard.objects.all().order_by('-score')
+    participants = ScoreBoard.objects.all().order_by('-score','time_passed')
     return render(request, "polls/score_board.html", {'participants': participants})
 
 def qr(request):
