@@ -363,16 +363,30 @@ td{
 }
 
 @media screen and (max-width: 730px) {
+    #mickiewicz-info {
+        margin-top: 180px
+    }
     .navbar-brand{
         font-size: 1.3rem;
     }
     .button_score button {
         width: 90%
     }
-
+    #mickiewicz-info img {
+        transform: scale(40%) translate(100%, -155%);
+    }
 }
 
 @media screen and (max-width: 542px) {
+    #mickiewicz-info {
+        margin-top: 120px
+    }
+    #mickiewicz-info p {
+        font-size: 1rem;
+    }
+    #mickiewicz-info img {
+        transform: scale(30%) translate(140%, -190%);
+    }
     .navbar-toggler {
         width: 100%;
         margin: 20px;
