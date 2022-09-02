@@ -29,6 +29,7 @@ def index(request):
 
     if request.session.get('alert', None):
         context['alert'] = request.session['alert']
+        context['alert_class'] = request.session['alert_class']
         request.session['alert'] = None
 
     if not request.session.get('start_time', None):
@@ -40,13 +41,17 @@ def index(request):
     if request.method == "POST":
         if request.session['points'] == 0 or request.POST['username'] == "":
             context['alert'] = "Coś poszło nie tak, spróbuj ponownie."  
+            context['alert_class'] = "alert-warning"
         elif request.session['in_scoreboard']:
             context['alert'] = "Już złożyłeś swój rekord do tablicy."
+            context['alert_class'] = "alert-warning"
         else:
             time_passed = dt.now() - dt.fromisoformat(request.session['start_time'])
             ScoreBoard.objects.create(name=request.POST['username'], score=context['points'], time_passed=time_passed).save()
             context['alert'] = "Zostałeś dodany do tabeli wyników!"
+            context['alert_class'] = "alert-success"
             request.session['in_scoreboard'] = True
+    print(request.session['in_scoreboard'])
     return render(request, 'polls/index.html', context)
 
 def contact(request):
@@ -234,6 +239,7 @@ def detail(request, question_id):
     cookie_list = request.session['answered_questions'].split("'")
     if str(question_id) in cookie_list:
         request.session['alert'] = "Coś poszło nie tak, już odpowiedziałeś na poprzednie pytanie, spróbuj ponownie."
+        request.session['alert_class'] = "alert-warning"
         context['points'] = request.session['points']
         return HttpResponseRedirect('/')
     if request.method == "POST":
@@ -242,10 +248,12 @@ def detail(request, question_id):
         if(answer.valid):
             request.session['points'] += 1
             request.session['alert'] = 'Odpowiedziałeś poprawnie na pytanie, znajdź następny QR!'
+            request.session['alert_class'] = 'alert-success'
             context['points'] = request.session['points']
             return HttpResponseRedirect('/')
         else:
-            context['alert'] = 'Nie udało ci się odpowiedzieć na to pytanie.'
-            request.session['alert'] = request.session['points']
+            context['alert'] = 'Nie udało ci się odpowiedzieć na to pytanie. Znajdź inny QR.'
+            request.session['alert'] = context['alert']
+            request.session['alert_class'] = 'alert-danger'
             return HttpResponseRedirect('/')
     return render(request, 'polls/detail.html', context)

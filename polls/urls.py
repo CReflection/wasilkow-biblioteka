@@ -7,10 +7,10 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('<int:question_id>/', views.detail, name='detail'),
-    path('question/', views.randomQuestion, name='randomQuestion'),
-    path('quiz/<slug:group_hash>', views.groupQuestion, name='groupQuestion'),
+    # path('question/', views.randomQuestion, name='randomQuestion'),
+    # path('quiz/<slug:group_hash>', views.groupQuestion, name='groupQuestion'),
     path('kontakt/', views.contact, name='contact'),
-    path('qr/', views.qr, name='qr'),
+    # path('qr/', views.qr, name='qr'),
     
     path('wyniki/', views.score, name='wyniki'),
 ]

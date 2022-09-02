@@ -39,41 +39,54 @@
       </div>
     </div>
   </nav>
+  
+  {% if alert %}
+    <div class="quiz-alert alert {{ alert_class }}" role="alert">
+      {{ alert }}
+    </div>
+  {% endif %}
 
-
-
-
-
-
-  {% if not request.session.in_scoreboard and points > 0 %}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Zapisz swój wynik!</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form method="POST">
-              {% csrf_token %}
-              <fieldset>
-                <label class="form-label">Nazwa</label><br>
-                <input type="text" class="form-control" name="username" id="username" required><br>
-                <label class="form-label">Twój czas</label><br>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Zapisz swój wynik!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+            {% csrf_token %}
+            <fieldset>
+              <label class="form-label">Nazwa</label><br>
+              <input type="text" class="form-control" name="username" id="username" required><br>
+              <label class="form-label">Twój czas</label><br>
+              {% if not time_passed %}
+                <h2 class="view-time" style="display: none"></h2>
+                <h2>Brak</h2>
+              {% else %}
                 <h2 class="view-time"></h2><br>
-                <label class="form-label">Punkty:</label>
-                <h2>{{ points }}</h2>
-              </fieldset>
-              <br>
-              <div class="modal-footer">
-                <input type="submit" value="Zatwierdź" class="btn btn-dark">
-              </div>
-            </form>
-          </div>
+              {% endif %}
+              <label class="form-label">Punkty:</label>
+              <h2>{{ points }}</h2>
+                {% if request.session.in_scoreboard %}
+                  <div class="scoreboard-alert alert alert-danger" role="alert">
+                    Już dodałeś swój wynik do tablicy! <br> Nie możesz go dodać drugi raz!
+                  </div>
+                {% else %}
+                  <div class="scoreboard-alert alert alert-warning" role="alert">
+                    Możesz tylko raz zapisać swój wynik. <br> Nie można go później nadpisać!
+                  </div>
+                {% endif %}
+            </fieldset>
+            <br>
+            <div class="modal-footer">
+              <input type="submit" value="Zatwierdź" class="btn btn-dark">
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  {% endif %}
+  </div>
 
 
   <div class="main">
@@ -98,11 +111,6 @@
       <img src="{% static 'images/rules_of_wasilkow.png' %}" alt=""/>
     </div>
   </div>
-  {% if alert %}
-    <div class="quiz-alert alert alert-success" role="alert">
-      {{ alert }}
-    </div>
-  {% endif %}
   <!-- 
   <div class="container">
     <div class="list">
@@ -167,7 +175,9 @@
     </footer>
   </div>
   <script>
-    var start_time = '{{ time_passed }}'
+    var start_time = '{{ time_passed }}';
+    var points = '{{ request.session.points }}';
+    var inleaderboard = '{{ request.session.in_scoreboard }}'
   </script>
   <script src="{% static 'js/main.js' %}"></script>
 </body>
