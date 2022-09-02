@@ -38,11 +38,14 @@ function updateTime(){
 requestAnimationFrame(updateTime);
 
 window.onload = function(e){
-    let div = document.querySelector('#mickiewicz-container');
-    let image = document.querySelector('#mickiewicz-info img');
-    // let height = image.height
-    console.log(image.height)
-    image.style.top = "-" + (image.height - 40) + "px";
-    image.style.right = "-" + (image.width/2 - 50) + "px";
-    div.style.marginTop = image.height + "px";
+    // let tutorialDiv = document.querySelector('#game-rules');
+    // let pointDiv = document.querySelector('#points-container');
+    // let div = document.querySelector('#mickiewicz-container');
+    // let image = document.querySelector('#mickiewicz-info img');
+    // let height = image.height;
+    // console.log(image.height);
+    // image.style.top = "-" + (image.height - 40) + "px";
+    // image.style.right = "-" + (image.width/2 - 50) + "px";
+    // div.style.marginTop = image.height + "px";
+    // tutorialDiv.style.maxHeight = (pointDiv.clientHeight - 20) + "px";   
 }

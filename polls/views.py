@@ -39,7 +39,9 @@ def index(request):
     
     if request.method == "POST":
         if request.session['points'] == 0 or request.POST['username'] == "":
-            context['alert'] = "Coś poszło nie tak, spróbuj ponownie"
+            context['alert'] = "Coś poszło nie tak, spróbuj ponownie."  
+        elif request.session['in_scoreboard']:
+            context['alert'] = "Już złożyłeś swój rekord do tablicy."
         else:
             time_passed = dt.now() - dt.fromisoformat(request.session['start_time'])
             ScoreBoard.objects.create(name=request.POST['username'], score=context['points'], time_passed=time_passed).save()

@@ -8,15 +8,24 @@ body {
 }
 
 .main {
-    position: relative;
+    display: flex;
+    flex-direction: row;
     width: 100%;
-  }
-  
-  /* Make the image responsive */
+    justify-content: space-around;
+    max-height: 813px;
+}
+
 .main img {
-    width: 50%;
+    overflow:hidden !important; 
     height: auto;
     display: block;
+}
+  /* Make the image responsive */
+#points-container img {
+    width: 90%;
+    height: auto;
+    max-height: 100%;
+    object-fit: scale-down;
 }
 
 .main .btn {
@@ -77,6 +86,7 @@ body {
 /*  NAVBER */
 .navbar-brand{
     margin-left: 20px;
+    font-size: 2.2rem;
 }
 
 .collapse{
@@ -258,7 +268,20 @@ td{
 }
 
 #points-container {
+    display: flex;
     position: relative;
+    width: 50%;
+    height: 80vh;
+    max-height: 813px;
+}
+
+
+#mickiewicz-container {
+    display: flex;
+    position: relative;
+    width: 30%;
+    height: 80vh;
+    max-height: 813px;
 }
 
 #mickiewicz-info {
@@ -268,18 +291,96 @@ td{
     max-width: 500px;
     background-color: #212529;
     color: white;
+    flex-grow:0;
+    margin:auto;
+    margin-top:200px;
 }
 
 #mickiewicz-info p{
     padding: 35px 30px;
+    font-size: 1.2rem;
+    margin-bottom: 0;
 }
 
 #mickiewicz-info img {
     position: absolute;
     top: 0px;
     right: 0px;
+    width: fit-content;
+    transform: scale(50%) translate(80%, -130%);
 }
 
-#mickiwicz-container {
-    position: relative;
+
+#game-rules {
+    display: flex;
+    align-items: center;
+    width: 25%;
+    height: 80vh;
+    max-height: 813px;
+}
+
+#game-rules img {
+    max-width: 100%;
+    max-height: 100%;
+    width: fit-content;
+    height: 100%;
+    object-fit: contain;
+}
+
+@media screen and (max-width: 1300px) {
+    .navbar-brand{
+        font-size: 1.7rem;
+    }
+    .main {
+        flex-direction: column;
+        height: unset;
+        max-height: unset;
+        align-items: center;
+    }
+
+    #mickiewicz-container {
+        order: 2;
+        width: 90%;
+        margin-top: 200px;
+        margin-bottom: 50px;
+        height: unset;
+        max-height: unset;
+    }
+    #points-container{
+        order: 1;
+        width: 90%;
+        margin-bottom: 50px;
+        height: unset;
+        max-height: unset;
+    }
+    #game-rules{
+        order: 3;
+        width: 90%;
+        justify-content: center;
+        height: unset;
+        max-height: unset;
+    }
+}
+
+@media screen and (max-width: 730px) {
+    .navbar-brand{
+        font-size: 1.3rem;
+    }
+    .button_score button {
+        width: 90%
+    }
+
+}
+
+@media screen and (max-width: 542px) {
+    .navbar-toggler {
+        width: 100%;
+        margin: 20px;
+    }
+    .navbar-container {
+        justify-content: center !important;
+    }
+    .navbar-brand{
+        font-size: 1.05rem;
+    }
 }

@@ -17,8 +17,8 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a style="font-size:2vw;" class="navbar-brand" href="{% url 'polls:index' %}">Quiz o życiu i twórczości Adama
+    <div class="navbar-container container-fluid">
+      <a class="navbar-brand" href="{% url 'polls:index' %}">Quiz o życiu i twórczości Adama
         Mickiewicza</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -77,22 +77,7 @@
 
 
   <div class="main">
-    <!-- <div id="game-rules">
-      <img src="{% static 'images/rules_of_wasilkow.png' %}" alt=""/>
-    </div> -->
-    <div id="points-container">
-      <img src="{% static 'images/raczki_2.jpg' %}" class="mx-auto d-block responsive">
-      <div class="button_score">
-        {% if not request.session.in_scoreboard and points > 0 %}
-          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Dodaj swój wynik = {{ points }}
-          </button>
-        {% else %}
-          <h3>Liczba punktów: {{ points }}</h3>
-        {% endif %}
-      </div>
-    </div>
-    <!-- <div id="mickiewicz-container">
+    <div id="mickiewicz-container">
       <div id="mickiewicz-info">
         <img src="{% static 'images/mickiewicz-adam_2.png' %}" alt=""/>
         <p>Tegoroczną lekturą Narodowego Czytania są „Ballady i Romanse” Adama Mickiewicza. 
@@ -100,7 +85,18 @@
           opierającą się na dziełach tego wspaniałego poety.
         </p>
       </div>
-    </div> -->
+    </div>
+    <div id="points-container">
+      <img src="{% static 'images/raczki_2.jpg' %}" class="mx-auto d-block responsive">
+      <div class="button_score">
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Dodaj swój wynik: {{ points }}
+          </button>
+      </div>
+    </div> 
+    <div id="game-rules">
+      <img src="{% static 'images/rules_of_wasilkow.png' %}" alt=""/>
+    </div>
   </div>
   {% if alert %}
     <div class="quiz-alert alert alert-success" role="alert">
