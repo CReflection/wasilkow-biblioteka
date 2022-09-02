@@ -18,8 +18,10 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a style="font-size:2vw;" class="navbar-brand" href="{% url 'polls:index' %}">Quiz o życiu i twórczości Adama Mickiewicza</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a style="font-size:2vw;" class="navbar-brand" href="{% url 'polls:index' %}">Quiz o życiu i twórczości Adama
+        Mickiewicza</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -41,8 +43,8 @@
 
 
 
-  
-  
+
+
   {% if not request.session.in_scoreboard and points > 0 %}
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -73,27 +75,39 @@
     </div>
   {% endif %}
 
-  
+
   <div class="main">
-    <img src="{% static 'images/raczki_2.jpg' %}" class="mx-auto d-block responsive">
-    <div class="button_score">
-      {% if not request.session.in_scoreboard and points > 0 %}
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Dodaj swój wynik = {{ points }} 
-        </button>
-      {% else %}
-      <h3>Liczba punktów: {{ points }}</h3>
-      {% endif %}
-    </div>
-    {% if alert %}
-      <div class="quiz-alert alert alert-success" role="alert">
-        {{ alert }}
+    <!-- <div id="game-rules">
+      <img src="{% static 'images/rules_of_wasilkow.png' %}" alt=""/>
+    </div> -->
+    <div id="points-container">
+      <img src="{% static 'images/raczki_2.jpg' %}" class="mx-auto d-block responsive">
+      <div class="button_score">
+        {% if not request.session.in_scoreboard and points > 0 %}
+          <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Dodaj swój wynik = {{ points }}
+          </button>
+        {% else %}
+          <h3>Liczba punktów: {{ points }}</h3>
+        {% endif %}
       </div>
-    {% endif %}
+    </div>
+    <!-- <div id="mickiewicz-container">
+      <div id="mickiewicz-info">
+        <img src="{% static 'images/mickiewicz-adam_2.png' %}" alt=""/>
+        <p>Tegoroczną lekturą Narodowego Czytania są „Ballady i Romanse” Adama Mickiewicza. 
+          Z tej okazji Miejska Biblioteka Publiczna w Wasilkowie zainicjowała grę miesjką
+          opierającą się na dziełach tego wspaniałego poety.
+        </p>
+      </div>
+    </div> -->
   </div>
-
-
-
+  {% if alert %}
+    <div class="quiz-alert alert alert-success" role="alert">
+      {{ alert }}
+    </div>
+  {% endif %}
+  <!-- 
   <div class="container">
     <div class="list">
       <h2>Lista pytań:</h2>
@@ -109,36 +123,37 @@
         {% endif %}
       </div>
     </div>
-  </div>
+  </div> -->
 
 
 
   <div class="container_info">
     <div class="text-center">
-      <b>Adam Mickiewicz</b> 
+      <b>Adam Mickiewicz</b>
       <p style="color: #212529">.</p>
-      <p>ur. 24 grudnia 1798</p> 
-      <p>zm. 26 listopada 1855</p> 
+      <p>ur. 24 grudnia 1798</p>
+      <p>zm. 26 listopada 1855</p>
       <p style="color: #212529">.</p>
       <p>polski poeta, publicysta, tłumacz, filozof, organizator i dowódca wojskowy, nauczyciel akademicki.</p>
     </div>
   </div>
-  
+
   <div id="footerwrap" class="tf box tf clear">
     <footer id="footer" class="tf_box pagewidth tf_scrollbar tf_rel">
       <div class="main-col">
         <div class="footer-left-wrap">
           <div id="footer-logo">
-            <a href="http://mbpwasilkow.pl/" title="Miejska Biblioteka Publiczna w Wasilkowie" >
-              <img src="{% static 'images/logo biblioteki.jpg' %}" alt="miejska biblioteka publiczna w wasilkowie" width="200" class="center">
+            <a href="http://mbpwasilkow.pl/" title="Miejska Biblioteka Publiczna w Wasilkowie">
+              <img src="{% static 'images/logo biblioteki.jpg' %}" alt="miejska biblioteka publiczna w wasilkowie"
+                width="200" class="center">
             </a>
           </div>
           <div class="footer-contact">
             <div class="text-center p-4">
               <p>
-                tel: 
+                tel:
                 <a href="+48 85 718 52 32">+48 85 718 52 32</a>
-                , 
+                ,
                 <a href="+48 516 362 291">+48 516 362 291</a>
                 e-mail:
                 <a href="mailto:mbpwasilkow@home.pl">mbpwasilkow@home.pl</a>
@@ -155,10 +170,10 @@
 
     </footer>
   </div>
-<script>
-  var start_time = '{{ time_passed }}'
-</script>
-<script src="{% static 'js/main.js' %}"></script>
+  <script>
+    var start_time = '{{ time_passed }}'
+  </script>
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
 
 </html>

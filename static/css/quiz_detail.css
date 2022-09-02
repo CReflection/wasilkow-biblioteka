@@ -133,7 +133,8 @@ fieldset {
 }
 
 .button_score{
-    margin: 50px auto 50px auto;
+    /* margin: 50px auto 50px auto; */
+    margin: 0px auto 0px auto;
     text-align: center;
     font-weight: 800;
 }
@@ -254,4 +255,31 @@ td{
 .table {
     margin: 30px auto;
     overflow: auto;
+}
+
+#points-container {
+    position: relative;
+}
+
+#mickiewicz-info {
+    position: relative;
+    width: 80%;
+    border-radius: 20px;
+    max-width: 500px;
+    background-color: #212529;
+    color: white;
+}
+
+#mickiewicz-info p{
+    padding: 35px 30px;
+}
+
+#mickiewicz-info img {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+#mickiwicz-container {
+    position: relative;
 }
