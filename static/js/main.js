@@ -41,10 +41,19 @@ window.onload = function(e){
     console.log(points);
     console.log(document.documentElement.clientWidth);
     console.log(document.querySelector("#points-container"));
+    let mickiewicz = document.querySelector("#mickiewicz-container");
     if(points <= 0 && document.documentElement.clientWidth < 1300) {
         let leaderboard = document.querySelector("#points-container");
         leaderboard.style.display = "none";
-        let mickiewicz = document.querySelector("#mickiewicz-container");
         mickiewicz.style.margin = "unset";
+    } else if(document.documentElement.clientWidth < 542) {
+        let mickiewiczInfo = document.querySelector("#mickiewicz-info");
+        mickiewiczInfo.style.marginTop = "unset";
+        mickiewicz.style.marginTop = "100px";
     }
+    else if(document.documentElement.clientWidth < 1300) {
+        let mickiewiczInfo = document.querySelector("#mickiewicz-info");
+        mickiewiczInfo.style.marginTop = "unset";
+        mickiewicz.style.marginTop = "160px";
+    } 
 }
